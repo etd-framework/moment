@@ -990,7 +990,7 @@
     }
 
     var defaultMonthsRegex = matchWord;
-    function monthsRegex (isStrict) {
+    function units_month__monthsRegex (isStrict) {
         if (this._monthsParseExact) {
             if (!hasOwnProp(this, '_monthsRegex')) {
                 computeMonthsParse.call(this);
@@ -3089,7 +3089,7 @@
         }
     }
 
-    function format (inputString) {
+    function moment_format__format (inputString) {
         if (!inputString) {
             inputString = this.isUtc() ? utils_hooks__hooks.defaultFormatUtc : utils_hooks__hooks.defaultFormat;
         }
@@ -3577,7 +3577,7 @@
     momentPrototype__proto.clone             = clone;
     momentPrototype__proto.diff              = diff;
     momentPrototype__proto.endOf             = endOf;
-    momentPrototype__proto.format            = format;
+    momentPrototype__proto.format            = moment_format__format;
     momentPrototype__proto.from              = from;
     momentPrototype__proto.fromNow           = fromNow;
     momentPrototype__proto.to                = to;
@@ -3675,11 +3675,11 @@
 
     var momentPrototype = momentPrototype__proto;
 
-    function moment__createUnix (input) {
+    function moment_moment__createUnix (input) {
         return local__createLocal(input * 1000);
     }
 
-    function moment__createInZone () {
+    function moment_moment__createInZone () {
         return local__createLocal.apply(null, arguments).parseZone();
     }
 
@@ -3703,7 +3703,7 @@
     prototype__proto.months            =        localeMonths;
     prototype__proto.monthsShort       =        localeMonthsShort;
     prototype__proto.monthsParse       =        localeMonthsParse;
-    prototype__proto.monthsRegex       = monthsRegex;
+    prototype__proto.monthsRegex       = units_month__monthsRegex;
     prototype__proto.monthsShortRegex  = monthsShortRegex;
 
     // Week
@@ -4004,7 +4004,7 @@
     var minutes      = makeGetter('minutes');
     var hours        = makeGetter('hours');
     var days         = makeGetter('days');
-    var months       = makeGetter('months');
+    var duration_get__months       = makeGetter('months');
     var years        = makeGetter('years');
 
     function weeks () {
@@ -4161,7 +4161,7 @@
     duration_prototype__proto.hours          = hours;
     duration_prototype__proto.days           = days;
     duration_prototype__proto.weeks          = weeks;
-    duration_prototype__proto.months         = months;
+    duration_prototype__proto.months         = duration_get__months;
     duration_prototype__proto.years          = years;
     duration_prototype__proto.humanize       = humanize;
     duration_prototype__proto.toISOString    = iso_string__toISOString;
@@ -4194,6 +4194,8 @@
 
     // Side effect imports
 
+    ;
+
 
     utils_hooks__hooks.version = '2.15.0';
 
@@ -4204,7 +4206,7 @@
     utils_hooks__hooks.max                   = max;
     utils_hooks__hooks.now                   = now;
     utils_hooks__hooks.utc                   = create_utc__createUTC;
-    utils_hooks__hooks.unix                  = moment__createUnix;
+    utils_hooks__hooks.unix                  = moment_moment__createUnix;
     utils_hooks__hooks.months                = lists__listMonths;
     utils_hooks__hooks.isDate                = isDate;
     utils_hooks__hooks.locale                = locale_locales__getSetGlobalLocale;
@@ -4212,7 +4214,7 @@
     utils_hooks__hooks.duration              = create__createDuration;
     utils_hooks__hooks.isMoment              = isMoment;
     utils_hooks__hooks.weekdays              = lists__listWeekdays;
-    utils_hooks__hooks.parseZone             = moment__createInZone;
+    utils_hooks__hooks.parseZone             = moment_moment__createInZone;
     utils_hooks__hooks.localeData            = locale_locales__getLocale;
     utils_hooks__hooks.isDuration            = isDuration;
     utils_hooks__hooks.monthsShort           = lists__listMonthsShort;
@@ -4227,8 +4229,61 @@
     utils_hooks__hooks.calendarFormat        = getCalendarFormat;
     utils_hooks__hooks.prototype             = momentPrototype;
 
-    var _moment = utils_hooks__hooks;
+    var moment__default = utils_hooks__hooks;
 
-    return _moment;
+
+    var fr = moment__default.defineLocale('fr', {
+        months : 'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split('_'),
+        monthsShort : 'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
+        monthsParseExact : true,
+        weekdays : 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
+        weekdaysShort : 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
+        weekdaysMin : 'Di_Lu_Ma_Me_Je_Ve_Sa'.split('_'),
+        weekdaysParseExact : true,
+        longDateFormat : {
+            LT : 'HH:mm',
+            LTS : 'HH:mm:ss',
+            L : 'DD/MM/YYYY',
+            LL : 'D MMMM YYYY',
+            LLL : 'D MMMM YYYY HH:mm',
+            LLLL : 'dddd D MMMM YYYY HH:mm'
+        },
+        calendar : {
+            sameDay: '[Aujourd\'hui à] LT',
+            nextDay: '[Demain à] LT',
+            nextWeek: 'dddd [à] LT',
+            lastDay: '[Hier à] LT',
+            lastWeek: 'dddd [dernier à] LT',
+            sameElse: 'L'
+        },
+        relativeTime : {
+            future : 'dans %s',
+            past : 'il y a %s',
+            s : 'quelques secondes',
+            m : 'une minute',
+            mm : '%d minutes',
+            h : 'une heure',
+            hh : '%d heures',
+            d : 'un jour',
+            dd : '%d jours',
+            M : 'un mois',
+            MM : '%d mois',
+            y : 'un an',
+            yy : '%d ans'
+        },
+        ordinalParse: /\d{1,2}(er|)/,
+        ordinal : function (number) {
+            return number + (number === 1 ? 'er' : '');
+        },
+        week : {
+            dow : 1, // Monday is the first day of the week.
+            doy : 4  // The week that contains Jan 4th is the first week of the year.
+        }
+    });
+
+    var moment_with_locales = moment__default;
+    moment_with_locales.locale('en');
+
+    return moment_with_locales;
 
 }));
